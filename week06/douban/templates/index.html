@@ -1,0 +1,236 @@
+{% extends "base_layout.html" %}
+{% block title %}Welcome{% endblock %}
+{% load static %}
+
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+<link rel="stylesheet" href="{% static 'css/morris.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ count_comment }}</div>
+                        <div>评论数量</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ star_avg }}</div>
+                        <div>平均星级</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ sent_avg }}</div>
+                        <div>情感倾向</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ good_sentiment }}</div>
+                        <div>正向数量</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-8">
+
+        <div class="panel panel-default">
+            <div class="panel-heading" title="只展示星级大于3的短评">
+                <i class="fa fa-bar-chart-o fa-fw"></i> 舆情数据展示（共 <span
+                    class="count_list_comment">{{ count_list }}</span> 条）
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped" id="comment_table">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>star</th>
+                                    <th>评论</th>
+                                    <th>情感倾向</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for short in list_comment %}
+                                <tr>
+                                    <td>{{short.id}}</td>
+                                    <td>{{short.stars}}</td>
+                                    <td>{{short.comment}}</td>
+                                    <td>{{short.sentiment}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.col-lg-4 (nested) -->
+
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+    </div>
+
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-4">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
+            </div>
+            <div class="panel-body">
+                <div id="morris-donut-chart" lg05={{ good_sentiment }} lt05={{ bad_sentiment }}></div>
+                <a href="#" class="btn btn-default btn-block">View Details</a>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="{% static 'js/raphael-min.js' %}"></script>
+<script src="{% static 'js/morris.min.js' %}"></script>
+<script src="{% static 'js/morris-data.js' %}"></script>
+
+<script>
+    $(function () {
+        $('#btn-search_keyword').on('click', function () {
+            var keyword = $.trim($('#search_keywrod').val())
+            if (keyword && keyword != undefined) {
+                $.ajax({
+                    url: 'searchcomment',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'keyword': keyword,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (res) {
+                        if (res && res != undefined) {
+                            try {
+                                $('.count_list_comment').html(res.length > 0 ? res.length : 0)
+                                $('#comment_table tbody').html('')
+
+                                html = []
+                                $(res).map(function (index, item) {
+                                    html.push('<tr>')
+
+                                    html.push('<td>' + item.pk + '</td>>')
+                                    html.push('<td>' + item.fields.stars + '</td>>')
+                                    html.push('<td>' + item.fields.comment + '</td>')
+                                    html.push('<td>' + item.fields.sentiment + '</td>')
+
+                                    html.push('</tr>')
+                                })
+                                $('#comment_table tbody').html(html.join(''))
+
+                            } catch (e) {
+                            }
+                        }
+
+                        // if (res && res != undefined) {
+                        //     comments = JSON.parse(res)
+                        //     //comment_table
+                        //
+                        // }
+                    }, error: function (err) {
+                        console.error('ajax error:', err)
+                    }
+                })
+            }
+        })
+    })
+</script>
+{% endblock %}
