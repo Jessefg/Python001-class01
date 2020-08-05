@@ -14,8 +14,8 @@ def index(request):
     # 所有评论
     comments = Comments.objects.all()
 
-    # 星级 >= 3
-    condition_star = {'stars__gte': 3}
+    # 星级 > 3
+    condition_star = {'stars__gt': 3}
     list_comment = comments.filter(**condition_star)
 
     count_list = list_comment.count()
