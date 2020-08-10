@@ -37,7 +37,6 @@ class Zoo(object):
         :param item:动物某子类名
         :return:
         """
-        print('zoo.__getattr__')
         try:
             for animal in self.list_animal:
                 if isinstance(animal, eval(item)):
@@ -74,14 +73,14 @@ class Cat(Animal):
     Cat 猫
     """
 
-    __instance_cat = False
-    list_animal = []
-
-    def __new__(cls, *args, **kwargs):
-        if cls.__instance_cat:
-            return cls.__instance_cat
-        cls.v = object.__new__(cls)
-        return cls.__instance_cat
+    # __instance_cat = False
+    # list_animal = []
+    #
+    # def __new__(cls, *args, **kwargs):
+    #     if cls.__instance_cat:
+    #         return cls.__instance_cat
+    #     cls.v = object.__new__(cls)
+    #     return cls.__instance_cat
 
     def __init__(self, name, types, shape, character, ispet=True):
         """
