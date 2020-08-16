@@ -49,6 +49,9 @@ def my_map(my_func: Callable, iterables: Iterable):
         """
         for p in iterables:
             yield my_func(p)
+    else:
+        # raise Exception(f' {iterables.__class__.__name__} is not iterable')
+        raise TypeError(f' {iterables.__class__.__name__} is not iterable')
 
 
 def timer(func):
@@ -83,9 +86,20 @@ def main_3(num, str):
         time.sleep(n)
 
 
+def square(n):
+    return n * n
+
+
 if __name__ == '__main__':
     # main()
 
-    for j in range(1, 5):
-        # main_2(j)
-        main_3(j, 'guo')
+    llist = [s for s in range(10)]
+    # newlist = my_map(square, llist)
+    # print(list(newlist))
+
+    newnum = my_map(square, 4)
+    print(list(newnum))
+
+    # for j in range(1, 5):
+    #     # main_2(j)
+    #     main_3(j, 'guo')
